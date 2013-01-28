@@ -86,7 +86,6 @@ function signin (mail, pass) {
             if (response.status == 200) {
                 window.localStorage.setItem("gb_auth_token", response.user.auth_token);
                 g_auth_token = response.user.auth_token;
-                console.log(response.user.auth_token);
                 loadMyBeans();
             } else {
                 $("#loginFailDialog_msg").html(response.message);
@@ -117,6 +116,9 @@ function loadMyBeans () {
             $.mobile.hidePageLoadingMsg();
             if (response.status == 200) {
                 g_number_beans = response.active_beans.size;
+                $.mobile.changePage( "homeBeans.html", { transition: "slide"} );
+            } else if (response.status == 205) {
+                g_number_beans = 0;
                 $.mobile.changePage( "homeBeans.html", { transition: "slide"} );
             } else {
                 $("#getMyBeansFailDialog_msg").html(response.message);
@@ -163,4 +165,37 @@ function onLogoutBtnTap() {
             }
         }
     )
+}
+
+function onRegistration(username, email, pass) {
+    var params = {
+        "user[email]" : email,
+        "user[password]" : pass,
+    }
+    $.mobile.showPageLoadingMsg("b", "registrations...", false);
+    var url = 'http://107.20.196.96/api/consumer/registrations.json';
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: url,
+        data: params,
+        timeout: 5000,
+        withCredentials: true,
+        useDefaultXhrHeader: false,
+        success: function(response, textStatus ){
+            $.mobile.hidePageLoadingMsg();
+            if (response.status == 200) {
+                $.mobile.changePage( "signin.html", { transition: "slide"} );
+            } else {
+                $("#signupFailDialog_msg").html(response.message[0]);
+                $("#signupFailDialog").popup('open', { transition: "pop"});
+            }
+        },
+        error: function(response, textStatus, errorThrown){
+            $.mobile.hidePageLoadingMsg();
+            var result = jQuery.parseJSON(response.responseText);
+            $("#signupFailDialog_msg").html("Registration failure, please try again.");
+            $("#signupFailDialog").popup('open', { transition: "pop"});
+        }
+    });
 }

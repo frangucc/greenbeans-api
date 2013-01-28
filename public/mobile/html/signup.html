@@ -33,10 +33,22 @@
 			<a data-role="button" class="create-account-btn">Create Account</a>
 			<a data-role="button" class="sign-in-btn">or sign into your existing account</a>
 			<script>
+				$( ".create-account-btn" ).bind( "click", function(event, ui) {
+					onRegistration($('#signin-email').val(), $('#signup-email').val(), $('#signup-password').val());
+				});
 				$( ".sign-in-btn" ).bind( "click", function(event, ui) {
 					$.mobile.changePage( "signin.html", { transition: "slide"} );
 				});
 			</script>
+			<div data-role="popup" id="signupFailDialog" data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="login-fail-dialog ui-corner-all">
+				<div data-role="header" data-theme="b" class="ui-corner-top">
+					<h1>Registration Failure</h1>
+				</div>
+				<div data-role="content" data-theme="b" class="ui-corner-bottom ui-content">
+					<h3 class="ui-title" id="signupFailDialog_msg"></h3>
+					<a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">OK</a> 
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
