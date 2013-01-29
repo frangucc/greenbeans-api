@@ -6,7 +6,6 @@ Greenbean::Application.routes.draw do
   namespace :merchant do
     get "reports/index"
     match 'reports' => "reports#index"
-    devise_for :merchants
 
     resources :actions
     resources :prizes
