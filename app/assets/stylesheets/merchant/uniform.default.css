@@ -43,7 +43,7 @@ div.selector {
 	background-position: top left;
 	line-height: 41px;
 	height: 41px;
-	width: 150px;
+	width: 160px;
 	font-size: 15px;
 	position: relative;
 	padding-left: 14px;
@@ -58,7 +58,7 @@ div.selector span {
 	padding: 0px 38px 0px 2px;
 	cursor: pointer;
 	color: #3d3d3d;
-	width: 110px;
+	width: 120px;
 	display: block;
 	float: left;
 	overflow: hidden;
@@ -70,7 +70,7 @@ div.selector select {
 	/* change these to adjust positioning of select element */
 	top: 0px;
 	left: 0px;
-	width: 164px;
+	width: 174px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 12px;
 	border: solid 1px #fff;

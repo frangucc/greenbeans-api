@@ -1,0 +1,51 @@
+#middle.clearfix
+  .span7
+    %h3.big-head Members
+    %h4.head-small UNIQUE STATISTICS
+    %ul.list-view.grid-view.clearfix
+      %li
+        .title-item= link_to "Members"
+        .numb-item 16
+        .meta-item.clearfix
+          .view= link_to "View"
+          .link= link_to "?"
+      %li.dark
+        .title-item= link_to "Friends Joined"
+        .numb-item= link_to "17"
+        .meta-item.clearfix
+          .view= link_to "Leaderboards"
+          .link= link_to "?"
+      %li.dark
+        .title-item= link_to "Facebook Followers", :html => {:class => 'red-bullet'}
+        .numb-item= link_to "17"
+        .meta-item.clearfix
+          .view= link_to "SETUP FACEBOOK"
+          .link= link_to "?"
+      %li.dark
+        .title-item= link_to "Twitter Followers"
+        .numb-item= link_to "17"
+        .meta-item.clearfix
+          .view= link_to "View"
+          .link= link_to "?"
+      %li.dark
+        .title-item= link_to "Pinterst Followers"
+        .numb-item= link_to "17"
+        .meta-item.clearfix
+          .view= link_to "View"
+          .link= link_to "?"
+
+  .span5
+    .bg-inner
+      .pad20
+        %p.back= link_to "Back"
+        %form.add-action
+          %h2 Link Facebook to your Account
+          .form-wrap
+            %input{type: 'text', placeholder: 'Facebook Page'}
+          .form-wrap
+            %input{type: 'text', placeholder: 'Facebook App ID'}
+          .form-wrap
+            %input{type: 'text', placeholder: 'Facebook Secret Key'}
+          .line
+          .form-submit
+            %input.btn{type: 'submit', value: 'Add'}
