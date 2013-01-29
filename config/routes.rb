@@ -9,6 +9,7 @@ Greenbean::Application.routes.draw do
 
     resources :actions
     resources :prizes
+    resources :members
     root :to => 'reports#index'
   end
 
