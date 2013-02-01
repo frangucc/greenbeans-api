@@ -33,6 +33,7 @@ $(function(){
         $("#homeBeans .number-of-beans").html('You have ' + g_number_beans + ' beans');
     });
 })
+
 function claimBeans (beanCode) {
     var params = {
         
@@ -50,7 +51,8 @@ function claimBeans (beanCode) {
             $.mobile.hidePageLoadingMsg();
             if (response.status == 200) {
                 g_number_beans = -1;
-                $.mobile.changePage( "homeBeans.html", { transition: "slide"} );
+                // $.mobile.changePage( "homeBeans.html", { transition: "slide"} );
+                getMyBeans();
             } else {
                 $("#claimBeansErrorText").show("fast");
             }

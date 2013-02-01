@@ -519,7 +519,6 @@ body {
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	border: 1px solid #b9bebf;
-	text-shadow: 0 1px 0 #535556;
 	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #eef2f3), color-stop(2%, #eef2f3), color-stop(3%, #e0e8e9), color-stop(100%, #c0c5c6));
 }
 
@@ -647,7 +646,6 @@ body {
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	border: 1px solid #b9bebf;
-	text-shadow: 0 1px 0 #535556;
 	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #eef2f3), color-stop(2%, #eef2f3), color-stop(3%, #e0e8e9), color-stop(100%, #c0c5c6));
 }
 
