@@ -16,6 +16,7 @@
 /log/*.csv
 /tmp
 .rvmrc
+.idea/
 /config/developers
 *.orig
 *.DS_Store
