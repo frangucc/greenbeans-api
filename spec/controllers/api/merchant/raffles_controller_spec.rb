@@ -49,6 +49,26 @@ describe Api::Merchant::RafflesController do
       data["status"].should eq(205)
       data["message"].should include("Num of winner is not a number")
     end
+
+    it "should not create raffle if drawing time is less than or equal to 5 mins from current time" do
+      draw_time = Time.now + 300
+      post :create, raffle: {name: "Test Raffle", num_of_winner: 1, prize_attributes: {p_type: "money", tier: {first: 1}}, drawing_time: draw_time}
+      response.should be_success
+      data = JSON.parse(response.body)
+      puts data.inspect
+      data["status"].should eq(205)
+      data["message"].should include("Drawing time should be atleast 5 mins ahead of current time")
+    end
+
+    it "should not create raffle if drawing time is less 5 mins from current time" do
+      draw_time = Time.now - 1200
+      post :create, raffle: {name: "Test Raffle", num_of_winner: 1, prize_attributes: {p_type: "money", tier: {first: 1}}, drawing_time: draw_time}
+      response.should be_success
+      data = JSON.parse(response.body)
+      puts data.inspect
+      data["status"].should eq(205)
+      data["message"].should include("Drawing time should be atleast 5 mins ahead of current time")
+    end
     
     describe "Prize" do
       it "should not create raffle with invalid prize type" do
@@ -174,7 +194,54 @@ describe Api::Merchant::RafflesController do
         assigns["raffle"].name.should eq("New Name")
         assigns["raffle"].prize.p_type.should eq Prize::TYPE.last
       end
+
+      it "should create raffle with prizes" do
+        post :create, raffle: {name: "Test Raffle", num_of_winner: 3, drawing_time: @draw_time, prize_attributes: {p_type: "money", tier: {first: 1, second:2,third:3}}}
+        response.should be_success
+        data = JSON.parse(response.body)
+        puts data.inspect
+        data["status"].should eq(200)
+        data["raffle"]["name"].should eq("Test Raffle")
+      end
+
+      it "should not create raffle if there are no prizes" do
+        post :create, raffle: {name: "Test Raffle", num_of_winner: 3, drawing_time: @draw_time}
+        response.should be_success
+        data = JSON.parse(response.body)
+        puts data.inspect
+        data["status"].should eq(205)
+        data["message"].should include("Prize can't be blank")
+      end
+
+      it "should not create raffle if number of winners donot match number of prizes" do
+        post :create, raffle: {name: "Test Raffle", num_of_winner: 3, drawing_time: @draw_time, prize_attributes: {p_type: "money"}}
+        response.should be_success
+        data = JSON.parse(response.body)
+        puts data.inspect
+        data["status"].should eq(205)
+        data["message"].should include("Prize Number and winners number donot match")
+      end
+
+      it "should create raffle when number of winners is equal to number of prizes" do
+        draw_time = Time.now + 500
+        post :create, raffle: {name: "Test Raffle", num_of_winner: 1, prize_attributes: {p_type: "money", tier: {first: 1}}, drawing_time: @draw_time}
+        response.should be_success
+        data = JSON.parse(response.body)
+        puts data.inspect
+        data["status"].should eq(200)
+        data["raffle"]["name"].should eq("Test Raffle")
+      end
+
+      it "should not create raffle if prize type is money and its value is not a number" do
+        draw_time = Time.now + 1200
+        post :create, raffle: {name: "Test Raffle", num_of_winner: 1, prize_attributes: {p_type: "money", tier: {first: "23asf4"}}, drawing_time: draw_time}
+        response.should be_success
+        data = JSON.parse(response.body)
+        puts data.inspect
+        data["status"].should eq(205)
+        data["message"].should include("Prize tier should be an number")
+      end
     end
-    
+
   end
 end

@@ -1,6 +1,9 @@
 class Api::Merchant::RafflesController < Api::Merchant::BaseController
   def create
     @raffle = current_merchant.raffles.create(params[:raffle])
+    puts params[:raffle].inspect
+    puts @raffle.errors.inspect
+    puts @raffle.prize.inspect
     if @raffle.errors.blank?
       render json: {status: 200, raffle: @raffle.attributes}
     else

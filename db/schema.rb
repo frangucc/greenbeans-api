@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130123040305) do
+ActiveRecord::Schema.define(:version => 20130212064725) do
 
   create_table "beans", :force => true do |t|
     t.string   "code",                           :null => false
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130123040305) do
     t.string   "p_type"
     t.datetime "created_at",                                                        :null => false
     t.datetime "updated_at",                                                        :null => false
+    t.string   "title"
   end
 
   add_index "prizes", ["raffle_id"], :name => "index_prizes_on_raffle_id"
