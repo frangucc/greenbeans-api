@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212064725) do
+ActiveRecord::Schema.define(:version => 20130213112908) do
 
   create_table "beans", :force => true do |t|
     t.string   "code",                           :null => false
@@ -50,11 +50,10 @@ ActiveRecord::Schema.define(:version => 20130212064725) do
 
   create_table "prizes", :force => true do |t|
     t.integer  "raffle_id"
-    t.text     "tier",       :default => "---\n:first: 0\n:second: 0\n:third: 0\n"
+    t.text     "tier"
     t.string   "p_type"
-    t.datetime "created_at",                                                        :null => false
-    t.datetime "updated_at",                                                        :null => false
-    t.string   "title"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "prizes", ["raffle_id"], :name => "index_prizes_on_raffle_id"
@@ -72,6 +71,22 @@ ActiveRecord::Schema.define(:version => 20130212064725) do
   end
 
   add_index "raffles", ["merchant_id"], :name => "index_raffles_on_merchant_id"
+
+  create_table "rewards", :force => true do |t|
+    t.string   "title",             :null => false
+    t.integer  "dollar_value",      :null => false
+    t.integer  "quantity",          :null => false
+    t.integer  "bean_cost",         :null => false
+    t.integer  "quantity_redeemed"
+    t.text     "description"
+    t.string   "image"
+    t.datetime "expiration_date"
+    t.integer  "merchant_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "rewards", ["merchant_id"], :name => "index_rewards_on_merchant_id"
 
   create_table "tokens", :force => true do |t|
     t.string   "code",        :null => false

@@ -2,13 +2,14 @@ class Raffle < ActiveRecord::Base
   belongs_to :merchant
   attr_accessible :description, :drawing_time, :instructions, :name, :num_of_winner, :repeat, :prize_attributes
   
-  has_one :prize
+  has_one :prize, :dependent => :destroy
   accepts_nested_attributes_for :prize
   
   validates :name, presence: true
-  validates :drawing_time, presence: true
+  #validates :drawing_time, presence: true
   validates :num_of_winner, presence: true, numericality: true
-  validates :prize, :presence => true
+  validates :prize, presence: true
+  validates :drawing_time, format: { with: /^([1]{1}[9]{1}[9]{1}\d{1}|[2-9]{1}\d{3})-([0,1]\d{1})-([0-2]\d{1}|[3][0,1]{1})\s([0]?\d|1\d|2[0-3]):([0-5]\d):([0-5]\d)\sUTC$/ , message: "Format should be in 'yyyy-mm-dd hh:mm:ss'"}
   validates_associated :prize
   
   scope :actives, lambda {where(['drawing_time > ?', DateTime.now])}
@@ -29,8 +30,12 @@ class Raffle < ActiveRecord::Base
   end
 
   def validate_drawing_time
-    if self.drawing_time <= (Time.now + 300)
-      self.errors.add(:drawing_time, "should be atleast 5 mins ahead of current time")
+    puts "+ #{self.drawing_time}++++++++#{self.drawing_time.class}"
+    unless self.drawing_time.nil?
+      if self.drawing_time.time <= (Time.now + 300).utc
+        puts "*" * 50
+        self.errors.add(:drawing_time, "should be atleast 5 mins ahead of current time")
+      end
     end
   end
 

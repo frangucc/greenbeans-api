@@ -30,6 +30,7 @@ Greenbean::Application.routes.draw do
         match 'passwords' => 'passwords#create'
       end
       resources :raffles, :only => [:create, :destroy, :update]
+      resources :rewards, :only => [:create, :destroy, :update, :index, :show]
 
 
 

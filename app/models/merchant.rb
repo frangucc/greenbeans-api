@@ -10,10 +10,11 @@ class Merchant < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name
 
   has_many :raffles
-  has_many :tokens 
+  has_many :tokens
+  has_many :rewards
   
-  validates_presence_of :email, :name
-  validates :name, uniqueness: true
+  validates :email, presence: true
+  validates :name, uniqueness: true, presence: true
   after_create :generate_first_token 
 
   private 
