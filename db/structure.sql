@@ -112,15 +112,10 @@ ALTER SEQUENCE merchants_id_seq OWNED BY merchants.id;
 CREATE TABLE prizes (
     id integer NOT NULL,
     raffle_id integer,
-    tier text DEFAULT '---
-:first: 0
-:second: 0
-:third: 0
-'::text,
+    tier text,
     p_type character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    title character varying(255)
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -178,6 +173,45 @@ CREATE SEQUENCE raffles_id_seq
 --
 
 ALTER SEQUENCE raffles_id_seq OWNED BY raffles.id;
+
+
+--
+-- Name: rewards; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE rewards (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    dollar_value integer NOT NULL,
+    quantity integer NOT NULL,
+    bean_cost integer NOT NULL,
+    quantity_redeemed integer,
+    description text,
+    image character varying(255),
+    expiration_date timestamp without time zone,
+    merchant_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: rewards_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE rewards_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: rewards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE rewards_id_seq OWNED BY rewards.id;
 
 
 --
@@ -294,6 +328,13 @@ ALTER TABLE ONLY raffles ALTER COLUMN id SET DEFAULT nextval('raffles_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY rewards ALTER COLUMN id SET DEFAULT nextval('rewards_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY tokens ALTER COLUMN id SET DEFAULT nextval('tokens_id_seq'::regclass);
 
 
@@ -334,6 +375,14 @@ ALTER TABLE ONLY prizes
 
 ALTER TABLE ONLY raffles
     ADD CONSTRAINT raffles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rewards_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY rewards
+    ADD CONSTRAINT rewards_pkey PRIMARY KEY (id);
 
 
 --
@@ -409,6 +458,13 @@ CREATE INDEX index_raffles_on_merchant_id ON raffles USING btree (merchant_id);
 
 
 --
+-- Name: index_rewards_on_merchant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_rewards_on_merchant_id ON rewards USING btree (merchant_id);
+
+
+--
 -- Name: index_tokens_on_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -470,4 +526,6 @@ INSERT INTO schema_migrations (version) VALUES ('20130123033616');
 
 INSERT INTO schema_migrations (version) VALUES ('20130123040305');
 
-INSERT INTO schema_migrations (version) VALUES ('20130212064725');
+INSERT INTO schema_migrations (version) VALUES ('20130213102803');
+
+INSERT INTO schema_migrations (version) VALUES ('20130213112908');
