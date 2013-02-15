@@ -11,6 +11,7 @@ class Api::Merchant::RewardsController < Api::Merchant::BaseController
   end
 
   def create
+    puts params[:reward].inspect
     @reward = current_merchant.rewards.create(params[:reward])
     if @reward.errors.blank?
       render json: {status: 200, reward: @reward.attributes}

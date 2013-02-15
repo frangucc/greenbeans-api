@@ -45,6 +45,7 @@ FactoryGirl.define do
       dollar_value 500
       quantity 100
       bean_cost 200
+      expiration_date Time.now + (5 * 60 * 60)
     end
   
 end
