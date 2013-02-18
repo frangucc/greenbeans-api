@@ -1,0 +1,11 @@
+.pad20
+ %p.back= link_to "Back", "#"
+
+ %h3.big-head
+  Add a Game or Prize
+ ~ form_for :action, html: {class: "add-action"} do |f|
+  .form-wrap.bor-bot
+   = select_tag "selected_option", options_for_select([['Raffle', 1], ['Gift', 2]])
+  .form-submit
+   = link_to "Create",'#',class: "btn", onclick: "create_prize()"
+

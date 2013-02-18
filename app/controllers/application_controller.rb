@@ -33,5 +33,12 @@ class ApplicationController < ActionController::Base
       'trace'       => Rails.env.development? ? exception.backtrace : "Disabled at this time"
     }
   end
-  
+private
+ def add_error_messages_to_flash
+     flash[:error] ||= []
+    @raffle.errors.full_messages.each do |x|
+      flash[:error]  << x
+    end
+ end
+
 end

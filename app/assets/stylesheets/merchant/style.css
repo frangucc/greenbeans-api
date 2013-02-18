@@ -374,3 +374,7 @@ input[type="text"].email {background:url(../merchant/icon-link.png)  11px  11px 
 }
 
 
+input[type="text"].money {background:url(../merchant/icon-money.png)  11px  11px no-repeat #fff; padding-left:40px;width: 150px; }
+input[type="text"].date {background:url(../merchant/icon-calenda.png)  11px  11px no-repeat #fff; padding-left:40px;width: 150px; }
+
+.prize_field>input[type="text"]{width: 150px;}

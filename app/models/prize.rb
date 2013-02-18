@@ -6,7 +6,7 @@ class Prize < ActiveRecord::Base
   TYPE = ['money', 'gift', 'voucher']
   
   validates :p_type, :inclusion => { :in => TYPE }
-  validate :validate_tier
+  validate :validate_tier,:if => Proc.new{|prize| prize.p_type == TYPE.first }
 
   def validate_tier
     begin

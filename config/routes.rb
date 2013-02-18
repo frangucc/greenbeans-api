@@ -6,10 +6,14 @@ Greenbean::Application.routes.draw do
   namespace :merchant do
     get "reports/index"
     match 'reports' => "reports#index"
-
+    match 'new_prize' => "prizes#new_prize"
+    match 'create_prize' => "prizes#create_prize"
+    match 'create' => "raffles#create"
+    match 'new_reward' => "rewards#new"
     resources :actions
     resources :prizes
     resources :members
+    resources :rewards
     root :to => 'reports#index'
   end
 

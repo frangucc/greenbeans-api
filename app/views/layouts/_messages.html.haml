@@ -1,5 +1,20 @@
+
+/- flash.each do |name, msg|
+/  - if msg.is_a?(String)
+/    %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
+/      %a.close{"data-dismiss" => "alert"} ×
+/      = content_tag :div, msg, :id => "flash_#{name}"
 - flash.each do |name, msg|
-  - if msg.is_a?(String)
-    %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
-      %a.close{"data-dismiss" => "alert"} ×
-      = content_tag :div, msg, :id => "flash_#{name}"
+  - if msg.is_a?(Array)
+    - msg.each do |mess|
+      %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
+        %a.close{"data-dismiss" => "alert"} ×
+        = content_tag :div, mess, :id => "flash_#{name}"
+/- if target.errors.any?
+/  .alert-message.block-message.error{:"data-alert" => "alert"}
+/    %a.close{:href => "#"}×
+/    %p
+/        = "#{pluralize(target.errors.count, "error")} prohibited this record from being saved:"
+/    %ul
+/      - target.errors.full_messages.each do |msg|
+/        %li= msg

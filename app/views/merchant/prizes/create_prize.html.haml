@@ -1,0 +1,50 @@
+=# stylesheet_link_tag "application", :media => "all"
+=# javascript_include_tag "http://jzaefferer.github.com/jquery-validation/jquery.validate.js"
+
+:javascript
+ $(document).ready(function() {
+ // $(".add-action").validate();
+ $("#date").datetimepicker({
+ controlType: 'select',
+ dateFormat: 'yy-mm-dd',
+ timeFormat: 'hh:mm tt',
+ minDate: 0
+ });
+ 
+ });
+.pad20
+ %p.back= link_to "Back", "#"
+
+ %h3.big-head
+  Add a Game or Prize
+ ~ form_for :price, url:"create",html: {class: "add-action"} do |f|
+  .form-wrap.bor-bot
+   = select_tag "selected_option", options_for_select([['Raffle', 1], ['Gift', 2]])
+   = select_tag "prize[p_type]", options_for_select([['Money','money'], ['Gift','gift'],['Voucher','voucher']]),prompt: "Type"
+   = select_tag "selected_option", options_for_select([['Clone', 1]]) 
+  .form-wrap
+   = text_field_tag "raffle[name]","",placeholder:"Raffle Name", style: "width:360px;"
+   %br
+   = text_area_tag "raffle[description]","",placeholder:"About Raffle", style: "width:380px;"
+   %br
+   = text_area_tag "raffle[instructions]","",placeholder:"Instructions", style: "width:380px;"
+   %br
+   = text_field_tag :total_prize_amount,"",class: "money"
+   = text_field_tag "raffle[num_of_winner]","",id:"no_of_winners",onchange: "create_input_fields()",placeholder:"Select no of Prize", style: "width:150px;"
+   .prize_field
+  .form-submit
+   %br
+   .row-fluid
+    .span6
+     = text_field_tag "raffle[drawing_time]","",class: "date",id:"date",placeholder:"Drawing Time"
+    .span6
+     %h4{style: 'color:#999999;'} Summary
+     %br
+     .summary
+   .row-fluid
+    .span6
+     = submit_tag "Create",class: "btn"
+    .span6
+     %h4{style: 'color:#999999;'} Prize Pool
+     %br
+     .prize_pool

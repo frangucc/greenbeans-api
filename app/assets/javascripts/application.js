@@ -13,4 +13,39 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require jquery-ui
 //= require_tree .
+//= require merchant/timepicker
+//= require bootstrap-alert
+
+function new_prize()
+{
+    $(".bg-inner").load("new_prize");
+}
+
+function create_prize()
+{
+    //alert("ok");
+
+    //
+    //alert($('#selected_option').val());
+   if($('#selected_option').val()==1){
+
+       //alert("ok");
+   $(".bg-inner").load("create_prize");
+   }
+   else if($('#selected_option').val()==2){
+      $(".bg-inner").html("create_prize");
+   }
+   else{
+      $(".bg-inner").html("select options");
+   }
+}
+function create_input_fields(){
+ $('.prize_field').html("");
+    for(var i = 0; i <$('#no_of_winners').val() ; i++)
+{
+    var this_box = $('<input type="text" name="tire_prize' + i + '" class="money"  />  <input type="text" name="tire_name' + i + '" placeholder="'+(i+1)+'st Prize" disabled=true/><br/>');
+    $('.prize_field').append(this_box);
+}
+}
