@@ -15,7 +15,7 @@ class Bean < ActiveRecord::Base
 
   before_validation :set_code_and_use_type 
 
-  private 
+  private
   def set_code_and_use_type
     arr = [('0'..'9'),('A'..'Z')].map{|i| i.to_a}.flatten
     str = (0...6).map{ arr[rand(arr.length)] }.join

@@ -28,9 +28,9 @@ class Token < ActiveRecord::Base
     def generate_code 
       arr = [('0'..'9'),('A'..'Z')].map{|i| i.to_a}.flatten
       str = (0...5).map{ arr[rand(arr.length)] }.join
-      while (Bean.where(:code => str).any?)
-        str = (0...5).map{ arr[rand(arr.length)] }.join
-      end
+#      while (Bean.where(:code => str).any?)
+#        str = (0...5).map{ arr[rand(arr.length)] }.join
+#      end
       puts "%" * 50
       puts str
       self.code = str

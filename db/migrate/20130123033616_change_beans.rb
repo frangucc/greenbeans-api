@@ -5,5 +5,7 @@ class ChangeBeans < ActiveRecord::Migration
   end
 
   def down
+    remove_column :beans, :user_id
+    rename_column :beans, :redeemed, :is_checkout
   end
 end

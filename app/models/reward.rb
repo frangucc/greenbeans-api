@@ -4,11 +4,11 @@ class Reward < ActiveRecord::Base
 
   validates :title, presence: true
   validates :dollar_value, presence: true
-  validates :dollar_value, numericality: true, :unless => Proc.new {|c| c.dollar_value.blank?}
+  validates :dollar_value, numericality: {greater_than: 0}, :unless => Proc.new {|c| c.dollar_value.blank?}
   validates :quantity, presence: true
-  validates :quantity,  numericality: true, :unless => Proc.new {|c| c.quantity.blank?}
+  validates :quantity,  numericality: {greater_than: 0}, :unless => Proc.new {|c| c.quantity.blank?}
   validates :bean_cost, presence: true
-  validates :bean_cost,  numericality: true, :unless => Proc.new {|c| c.bean_cost.blank?}
+  validates :bean_cost,  numericality: {greater_than: 0}, :unless => Proc.new {|c| c.bean_cost.blank?}
   validates :expiration_date, presence: true
   validates :expiration_date,
     format: {

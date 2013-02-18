@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213112908) do
+ActiveRecord::Schema.define(:version => 20130218112201) do
 
   create_table "beans", :force => true do |t|
     t.string   "code",                           :null => false
@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(:version => 20130213112908) do
     t.string   "p_type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "title"
   end
 
   add_index "prizes", ["raffle_id"], :name => "index_prizes_on_raffle_id"
@@ -69,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20130213112908) do
     t.integer  "merchant_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.integer  "bean_cost"
   end
 
   add_index "raffles", ["merchant_id"], :name => "index_raffles_on_merchant_id"

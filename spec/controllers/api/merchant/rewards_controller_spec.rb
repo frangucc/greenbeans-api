@@ -42,8 +42,7 @@ describe Api::Merchant::RewardsController do
       reward_hash = {title: "Test Reward", dollar_value: 100, quantity: 100, bean_cost: 200, expiration_date: "2013 22-13 07:00:08"}
       post :create, reward: reward_hash
       response.should be_success
-      data = JSON.parse(response.body)
-      puts data.inspect
+      data = JSON.parse(response.body)      
       data["status"].should eq(205)
       data["message"].should include("Expiration date Format should be in 'yyyy-mm-dd hh:mm:ss'")
     end
@@ -94,10 +93,52 @@ describe Api::Merchant::RewardsController do
       data["message"].should include("Bean cost can't be blank")
     end
 
+
+     it "should not update with negative values for title, dollar value, quantity, bean_cost" do
+      reward = FactoryGirl.create(:reward, merchant: merchant)
+      reward_hash = {title: "Test Reward", dollar_value: -1, quantity: -20, bean_cost: -50, expiration_date: @expiry_time}
+      put :update, id: reward.id, reward: reward_hash
+      data = JSON.parse(response.body)
+      p "-" * 50
+      puts data.inspect
+      updated_raffle = Reward.find reward.id
+      data["status"].should eq(205)
+      data["message"].should include("Dollar value must be greater than 0")
+      data["message"].should include("Quantity must be greater than 0")
+      data["message"].should include("Bean cost must be greater than 0")
+    end
+
   end
 
   describe "Delete Reward" do
+     it "should delete reward" do
+      reward = FactoryGirl.create(:reward, merchant: merchant)
+      delete :destroy, id: reward.id
+      response.should be_success
+      data = JSON.parse(response.body)
+      data["status"].should eq(200)
+      data["message"].should eq("deleted reward successfully.")
+    end
 
+    it "should return error when user not signed in yet" do
+      sign_out merchant
+      reward = FactoryGirl.create(:reward, merchant: merchant)
+      delete :destroy, id: reward.id, format: :json
+      response.should_not be_success
+      data = JSON.parse(response.body)
+      puts data.inspect
+      data["error"].should eq("You need to sign in or sign up before continuing.")
+    end
+
+    it "should return error when input wrong reward id" do
+      id = -11
+      delete :destroy, id: id, format: :json
+      response.should be_success
+      data = JSON.parse(response.body)
+      data["status"].should eq(205)
+      data["message"].should include("coundn't found reward with id #{id}.")
+    end
+    
   end
 
 

@@ -193,7 +193,73 @@
           Delete fail
         .span6.word_wrap
         
-      
+
+  .span12.no-lmargin.mb20
+    %h5.span12.mb10 Rewards Controller
+    .span12.mb20
+      .span4
+        %h3 Create Reward
+        %p This call create a reward. This API call requires authentication, with auth_token from the LOGIN call.
+        %p auth_token: mandatory parameter.
+        %p Type: POST
+        %p Url: http://107.20.196.96/api/merchant/rewards.json
+
+      .span7
+        .w_100 EXAMPLE
+        .span7.mb20 curl -X POST 'http://localhost:d[title]=First Reward&reward[dollar_value]=3&reward[bean_cost]=50&reward[image]=hello.jpg&reward[quantity]=10&reward[expiration_date]=2013-02-14 19:47:21&auth_token=xq4VqGQz8QGJvJqS65T3'
+        .w_100.mt20
+          STATUS CODE SUMMARY
+        .span6
+          %strong 200:
+          Create successfully
+          %br
+          %strong 205:
+          Create fail
+        .span6.word_wrap
+          {"status":200,"reward":{"id":10,"title":"First Reward","dollar_value":3,"quantity":10,"bean_cost":50,"quantity_redeemed":null,"description":null,"image":null,"expiration_date":"2013-02-14T19:47:21Z","merchant_id":1,"created_at":"2013-02-18T14:32:00Z","updated_at":"2013-02-18T14:32:00Z"}}
+    .span12.mb20
+      .span4
+        %h3 Update Reward
+        %p This call update a reward. This API call requires authentication, with auth_token from the LOGIN call.
+        %p auth_token: mandatory parameter.
+        %p Type: PUT
+        %p Url: http://107.20.196.96/api/merchant/rewards/(:id).json
+
+      .span7
+        .w_100 EXAMPLE
+        .span7.mb20 curl -X PUT 'http://107.20.196.96/api/merchant/rewards/3.json' -d 'reward[title]=First Reward&reward[dollar_value]=3&reward[bean_cost]=50&reward[image]=hello.jpg&reward[quantity]=10&reward[expiration_date]=2013-02-14 19:47:21&auth_token=xq4VqGQz8QGJvJqS65T3'
+        .w_100.mt20
+          STATUS CODE SUMMARY
+        .span6
+          %strong 200:
+          Update successfully
+          %br
+          %strong 205:
+          Update fail
+        .span6.word_wrap
+          {"status":200,"message":"updated reward successfully."}
+    .span12.mb20
+      .span4
+        %h3 Delete Reward
+        %p This call delete a reward. This API call requires authentication, with auth_token from the LOGIN call.
+        %p auth_token: mandatory parameter.
+        %p Type: DELETE
+        %p Url: http://107.20.196.96/api/merchant/raffles/(:id).json
+
+      .span7
+        .w_100 EXAMPLE
+        .span7.mb20 curl -X DELETE 'http://107.20.196.96/api/merchant/rewards/3.json' -d 'auth_token=xq4VqGQz8QGJvJqS65T3'
+        .w_100.mt20
+          STATUS CODE SUMMARY
+        .span6
+          %strong 200:
+          Delete successfully
+          %br
+          %strong 205:
+          Delete fail
+        .span6.word_wrap
+          {"status":200,"message":"deleted reward successfully."}
+
       
 .span12.no-lmargin.mb20
   %h4.span12.no-lmargin.mb10 Consumer
