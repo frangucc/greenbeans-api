@@ -6,17 +6,11 @@ describe Api::Merchant::RafflesController do
   let!(:merchant) { FactoryGirl.create(:merchant) }
 
   before do
+    @draw_time = Time.now + 1200
     sign_in merchant
   end
-  describe "Create" do
 
-    it "should create raffle" do
-      post :create, raffle: {name: "Test Raffle", num_of_winner: 3}
-      response.should be_success
-      data = JSON.parse(response.body)
-      data["status"].should eq(200)
-      data["raffle"]["name"].should eq("Test Raffle")
-    end
+  describe "Create" do
 
     it "should return error when user not signed in yet" do
       sign_out merchant
@@ -90,7 +84,7 @@ describe Api::Merchant::RafflesController do
       end
 
       it "should create raffle with valid prize type" do
-        post :create, raffle: {name: "Test Raffle", num_of_winner: 3, prize_attributes: {p_type: Prize::TYPE.first}}
+        post :create, raffle: {name: "Test Raffle", num_of_winner: 1, drawing_time: @draw_time, prize_attributes: {p_type: Prize::TYPE.first, tier: {first: 1}}}
         response.should be_success
         data = JSON.parse(response.body)
         data["status"].should eq(200)
@@ -101,7 +95,7 @@ describe Api::Merchant::RafflesController do
 
   describe "Delete" do
     it "should delete raffle" do
-      raffle = FactoryGirl.create(:raffle, merchant: merchant)
+      raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize), merchant: merchant)
       delete :destroy, id: raffle.id
       response.should be_success
       data = JSON.parse(response.body)
@@ -111,10 +105,11 @@ describe Api::Merchant::RafflesController do
 
     it "should return error when user not signed in yet" do
       sign_out merchant
-      raffle = FactoryGirl.create(:raffle, merchant: merchant)
+      raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize))
       delete :destroy, id: raffle.id, format: :json
       response.should_not be_success
       data = JSON.parse(response.body)
+      puts data.inspect
       data["error"].should eq("You need to sign in or sign up before continuing.")
     end
 
@@ -130,8 +125,8 @@ describe Api::Merchant::RafflesController do
 
   describe "Update" do
     it "should update raffle" do
-      raffle = FactoryGirl.create(:raffle, merchant: merchant)
-      raffle_hash = {name: "New Name", num_of_winner: 1}
+      raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize), merchant: merchant)
+      raffle_hash = {name: "New Name", num_of_winner: 1, prize_attributes: {p_type: Prize::TYPE.first, tier: {first: 1}}}
       put :update, id: raffle.id, raffle: raffle_hash
       data = JSON.parse(response.body)
       data["status"].should eq(200)
@@ -142,7 +137,7 @@ describe Api::Merchant::RafflesController do
 
     it "should return error when user not signed in yet" do
       sign_out merchant
-      raffle = FactoryGirl.create(:raffle, merchant: merchant)
+      raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize), merchant: merchant)
       raffle_hash = {name: "New Name", num_of_winner: 1}
       put :update, id: raffle.id, raffle: raffle_hash, format: :json
       response.should_not be_success
@@ -151,7 +146,7 @@ describe Api::Merchant::RafflesController do
     end
 
     it "should not update with blank name" do
-      raffle = FactoryGirl.create(:raffle, merchant: merchant)
+      raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize), merchant: merchant)
       raffle_hash = {name: "", num_of_winner: 1}
       put :update, id: raffle.id, raffle: raffle_hash
       data = JSON.parse(response.body)
@@ -162,7 +157,7 @@ describe Api::Merchant::RafflesController do
     end
 
     it "should not update with blank num_of_winner" do
-      raffle = FactoryGirl.create(:raffle, merchant: merchant)
+      raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize), merchant: merchant)
       raffle_hash = {name: "New Name", num_of_winner: ''}
       put :update, id: raffle.id, raffle: raffle_hash
       data = JSON.parse(response.body)
@@ -173,7 +168,7 @@ describe Api::Merchant::RafflesController do
     end
 
     it "should not update when num_of_winner is not a number" do
-      raffle = FactoryGirl.create(:raffle, merchant: merchant)
+      raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize), merchant: merchant)
       raffle_hash = {name: "New Name", num_of_winner: "invalid"}
       put :update, id: raffle.id, raffle: raffle_hash
       data = JSON.parse(response.body)
@@ -185,7 +180,7 @@ describe Api::Merchant::RafflesController do
 
     describe "Prize" do
       it "should not update raffle with invalid prize type" do
-        raffle = FactoryGirl.create(:raffle, merchant: merchant)
+        raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize), merchant: merchant)
         raffle_hash = {name: "New Name", num_of_winner: 1, prize_attributes: {p_type: "invalid"}}
         put :update, id: raffle.id, raffle: raffle_hash
         response.should be_success
@@ -195,14 +190,14 @@ describe Api::Merchant::RafflesController do
       end
 
       it "should create raffle with valid prize type" do
-        raffle = FactoryGirl.create(:raffle, merchant: merchant)
-        raffle_hash = {name: "New Name", num_of_winner: 1, prize_attributes: {p_type: Prize::TYPE.last}}
+        raffle = FactoryGirl.create(:raffle, :prize => FactoryGirl.create(:prize), merchant: merchant)
+        raffle_hash = {name: "New Name", num_of_winner: 1, prize_attributes: {p_type: Prize::TYPE.first, tier: {first: 1}}}
         put :update, id: raffle.id, raffle: raffle_hash
         response.should be_success
         data = JSON.parse(response.body)
         data["status"].should eq(200)
         assigns["raffle"].name.should eq("New Name")
-        assigns["raffle"].prize.p_type.should eq Prize::TYPE.last
+        assigns["raffle"].prize.p_type.should eq Prize::TYPE.first
       end
 
       it "should create raffle with prizes" do

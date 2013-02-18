@@ -16,12 +16,12 @@ FactoryGirl.define do
     name Faker::Lorem.words(2).join(" ")
     num_of_winner 3
     description Faker::Lorem.words(10).join(",")
-    drawing_time Time.now + 10
+    drawing_time Time.now + 1200
     repeat  false
-    factory :prize do
-      p_type Prize::TYPE.sample
-      tier tier_hash
-    end
+#    factory :prize do
+#      p_type Prize::TYPE.sample
+#      tier tier_hash
+#    end
   end
   
   factory :token do
@@ -34,5 +34,18 @@ FactoryGirl.define do
     password 'password'
     password_confirmation 'password'
   end
+
+  factory :prize do
+      p_type Prize::TYPE.sample
+      tier tier_hash
+    end
+
+   factory :reward do
+      title Faker::Lorem.words(10).join(",")
+      dollar_value 500
+      quantity 100
+      bean_cost 200
+      expiration_date Time.now + (5 * 60 * 60)
+    end
   
 end

@@ -10,8 +10,8 @@ class Merchant::RewardsController < ApplicationController
   end
 
   def create
-    @reward = current_merchant.rewards.create(params[:reward])
-
+    @reward = current_merchant.rewards.create!(params[:reward])
+render :text=>@reward.image_url
   end
 
   def update

@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130213112908) do
     t.string   "p_type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "title"
   end
 
   add_index "prizes", ["raffle_id"], :name => "index_prizes_on_raffle_id"

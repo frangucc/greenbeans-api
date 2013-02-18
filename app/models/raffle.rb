@@ -5,10 +5,14 @@ class Raffle < ActiveRecord::Base
   has_one :prize, :dependent => :destroy
   accepts_nested_attributes_for :prize
   
-  validates :name, presence: true, uniqueness: true
-  validates :drawing_time, presence: true, format: { with: /^([1]{1}[9]{1}[9]{1}\d{1}|[2-9]{1}\d{3})-([0,1]\d{1})-([0-2]\d{1}|[3][0,1]{1})\s([0]?\d|1\d|2[0-3]):([0-5]\d):([0-5]\d)\sUTC$/ , message: "Format should be in 'yyyy-mm-dd hh:mm:ss'"}
-  validates :num_of_winner, presence: true, numericality: true
+
+  validates :name, presence: true  
+  validates :num_of_winner, presence: true
+  validates :num_of_winner,  numericality: true, :unless => Proc.new {|c| c.num_of_winner.blank?}
   validates :prize, presence: true
+  validates :drawing_time, presence: true
+  validates :drawing_time, format: { with: /^([1]{1}[9]{1}[9]{1}\d{1}|[2-9]{1}\d{3})-([0,1]\d{1})-([0-2]\d{1}|[3][0,1]{1})\s([0]?\d|1\d|2[0-3]):([0-5]\d):([0-5]\d)\sUTC$/ , message: "Format should be in 'yyyy-mm-dd hh:mm:ss'"}, :unless => Proc.new {|c| c.drawing_time.blank?}
+
   validates_associated :prize
   
   scope :actives, lambda {where(['drawing_time > ?', DateTime.now])}

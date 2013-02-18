@@ -12,15 +12,15 @@ class Token < ActiveRecord::Base
   before_validation :generate_code 
   after_create :generate_beans
   
-  def create_beans(quantity)
-    quantity.times do 
-      self.beans.create 
-    end
-  end
+#  def create_beans(quantity)
+#    quantity.times do
+#      self.beans.create
+#    end
+#  end
   
   private
     def generate_beans
-      self.beans_count.times do 
+      self.beans_count.to_i.times do
         self.beans.create 
       end
     end
@@ -31,6 +31,8 @@ class Token < ActiveRecord::Base
       while (Bean.where(:code => str).any?)
         str = (0...5).map{ arr[rand(arr.length)] }.join
       end
-      self.code = str    
+      puts "%" * 50
+      puts str
+      self.code = str
     end
 end

@@ -9,7 +9,7 @@ Greenbean::Application.routes.draw do
     match 'new_prize' => "prizes#new_prize"
     match 'create_prize' => "prizes#create_prize"
     match 'create' => "raffles#create"
-    match 'new_reward' => "rewards#new"
+    match 'rewards/create' => 'rewards#create'
     resources :actions
     resources :prizes
     resources :members

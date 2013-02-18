@@ -16,8 +16,8 @@
  %p.back= link_to "Back", "#"
 
  %h3.big-head
-  Add a Game or Prize
- ~ form_for :price, url:"create",html: {class: "add-action"} do |f|
+  Add a Reward
+ ~ form_for :rewards, url:"create",html: {class: "add-action", multipart: true} do |f|
   .form-wrap.bor-bot
    = select_tag "selected_option", options_for_select([['Raffle', 1], ['Gift', 2]])
    = select_tag "prize[p_type]", options_for_select([['Money','money'], ['Gift','gift'],['Voucher','voucher']]),prompt: "Type"
@@ -25,11 +25,13 @@
   .form-wrap
    = text_field_tag "reward[title]","",placeholder:"Reward Title", style: "width:360px;"
    %br
+   = text_field_tag "reward[quantity]","",placeholder:"quantity", style: "width:360px;"
+   %br
    = text_area_tag "reward[description]","",placeholder:"About Reward", style: "width:380px;"
    %br
    = text_field_tag "reward[dollar_value]","",placeholder:"Dollar Value",class: "money"
    = text_field_tag "reward[bean_cost]","",placeholder:"Bean Cost", style: "width:150px;"
-   
+   = file_field_tag "reward[image]"
   .form-submit
    %br
    .row-fluid
